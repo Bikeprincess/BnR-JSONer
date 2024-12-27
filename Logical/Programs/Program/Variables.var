@@ -1,0 +1,39 @@
+(*variable to testing*)
+(*br fun test*)
+VAR
+	xlist_prev_index : UINT := 16#FFFF;
+	xlist_index : UDINT := 0;
+	xlist_var_info : PV_xList_typ;
+	xlist_status : UINT := 0;
+	scan : BOOL;
+END_VAR
+(*Insert your comment here.*)
+VAR
+	PVitem_name : STRING[254] := 'vt_json_to_serialize';
+	PVitem_itemName : STRING[254];
+	PVitem_index : UINT := 0;
+	PVitem_status : UINT := 0;
+END_VAR
+(*Insert your comment here.*)
+VAR
+	PVnininfo_name : STRING[254];
+	PVnininfo_typ : UDINT;
+	PVnininfo_len : UDINT;
+	PVnininfo_dim : UINT;
+	PVnininfo_status : UINT;
+END_VAR
+(*Testing functions*)
+VAR
+	vt_json_serialized : STRING[3000];
+END_VAR
+(*Serializing*)
+VAR
+	vt_json_to_serialize : jsonTest_t;
+	vt_status_serialize : JSONer_Status_e;
+	vt_json_serialized_size : UDINT;
+END_VAR
+(*Deserialize*)
+VAR
+	vt_status_deserialize : JSONer_Status_e;
+	vt_json_deserialized : jsonTest_t;
+END_VAR
