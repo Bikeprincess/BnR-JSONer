@@ -25,6 +25,7 @@ VAR CONSTANT
 	jsonAsciiComma : USINT := 44; (*,*)
 	jsonAsciiSQuot : USINT := 39; (*'*)
 	jsonAsciiSlash : USINT := 47; (*/*)
+	jsonAsciiColon : USINT := 58; (*:*)
 	jsonAsciiSa : USINT := 97; (*a*)
 	jsonAsciiSz : USINT := 122; (*z*)
 	jsonAsciiBA : USINT := 65; (*A*)

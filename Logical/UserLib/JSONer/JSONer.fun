@@ -3,12 +3,12 @@
 FUNCTION JSON_serialize : JSONer_Status_e (*JSON serializer*)
 	VAR_INPUT
 		pVarName : UDINT; (*Name of variable. In local variable use full path - [Program":"][Variable]...*)
-		pUserVarName : UDINT := 0;
-		pOut : UDINT;
-		sizeOut : UDINT;
+		pUserVarName : UDINT := 0; (*User name if input variable are array and not struct*)
+		pOut : UDINT; (*Outout buffer - String or USINT[]*)
+		sizeOut : UDINT; (*Maximum size of buffer - SIZEOF(pOut)*)
 	END_VAR
 	VAR_IN_OUT
-		size : UDINT;
+		size : UDINT; (*Outout used size in bytes*)
 	END_VAR
 	VAR
 		freeBuffer : UDINT;
@@ -42,6 +42,7 @@ FUNCTION JSON_var_serialize : JSONer_Status_e
 		allTypes : JSONer_types_t;
 		strValConv : STRING[80];
 		copyConvStr : BOOL;
+		useQuoation : BOOL;
 		structFullNameMember : STRING[254];
 		structActIndex : UINT;
 		structItemName : STRING[32];
@@ -58,13 +59,14 @@ END_FUNCTION
 FUNCTION JSON_deserialize : JSONer_Status_e (*JSON deserializer*)
 	VAR_INPUT
 		pVarName : UDINT; (*Name of variable. In local variable use full path - [Program":"][Variable]...*)
-		pUserVarName : UDINT := 0;
-		pIn : UDINT;
-		sizeIn : UDINT;
+		pUserVarName : UDINT := 0; (*User variable name in JSON for array input - set to 0, if input variable is struct*)
+		pIn : UDINT; (*JSON string input - pointer*)
+		sizeIn : UDINT; (*Size of input string - for not overloop*)
 	END_VAR
 	VAR
-		xStatus : UINT;
+		xStatus : UDINT;
 		eStatus : JSONer_Status_e;
+		pActStr : UDINT;
 		freeBuffer : UDINT;
 	END_VAR
 END_FUNCTION

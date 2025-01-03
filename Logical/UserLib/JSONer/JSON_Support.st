@@ -47,10 +47,13 @@ FUNCTION findQuoation
 	FOR i := 0 TO maxLen BY 1 DO
 		c ACCESS (pStart + i);
 		IF c = jsonAsciiDQuot THEN
-			maxLen := maxLen - (i + 1);
-			pStart := pStart + i + 1;
-			findQuoation := i;
-			RETURN;
+			c ACCESS (pStart + i - 1);//Check the char before for backslash - it's will be char in string
+			IF (c <> jsonAsciiBackslash AND i > 0) OR i = 0 THEN
+				maxLen := maxLen - (i + 1);
+				pStart := pStart + i + 1;
+				findQuoation := i;
+				RETURN;
+			END_IF;
 		ELSIF c = jsonAsciiRB OR c = jsonAsciiRSB THEN
 			maxLen := maxLen - (i + 1);
 			pStart := pStart + i + 1;

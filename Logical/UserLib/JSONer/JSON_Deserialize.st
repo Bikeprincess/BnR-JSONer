@@ -1,9 +1,19 @@
-FUNCTION JSON_deserialize 
+FUNCTION JSON_deserialize
+	pActStr := pIn;
 	freeBuffer := sizeIn;
 	//================================================
-	//
+	//Ignore first name member
+	IF pUserVarName <> 0 THEN
+		xStatus := findCharOrEnd(cIn := jsonAsciiColon, pStart := pActStr, maxLen := freeBuffer);
+		IF xStatus > findError_OK THEN
+			JSON_deserialize := JSONer_InputError;
+			RETURN;
+		END_IF;
+	END_IF;
+	//================================================
+	//Do Magic
 	WHILE TRUE DO
-		eStatus := JSON_var_deserialize(pFullVarName := pVarName, isArray := FALSE, pStart := pIn, size := freeBuffer);
+		eStatus := JSON_var_deserialize(pFullVarName := pVarName, isArray := FALSE, pStart := pActStr, size := freeBuffer);
 		IF eStatus = JSONer_End THEN
 			JSON_deserialize := JSONer_Ok;
 			RETURN;
@@ -12,6 +22,7 @@ FUNCTION JSON_deserialize
 			RETURN;
 		END_IF;
 	END_WHILE;
+	//================================================
 	JSON_deserialize := JSONer_Ok;
 END_FUNCTION
 
@@ -221,16 +232,70 @@ FUNCTION JSON_var_deserialize
 		brsmemcpy(varAddr, ADR(allTypes.tReal), varSize);
 		
 	ELSIF varType = SYSLIB_IEC_TYPE_STRING THEN
-	
-		
+		xTempLen := findQuoation(pStart := pStart, maxLen := size);
+		IF xTempLen > findError_OK THEN
+			JSON_var_deserialize := JSONer_InputError;
+			RETURN;
+		END_IF;
+		pValueStart := pStart;
+		xTempLen := findQuoation(pStart := pStart, maxLen := size);
+		IF (xTempLen + 1) > varSize THEN
+			JSON_var_deserialize := JSONer_InputError;
+			RETURN;
+		END_IF;
+		brsmemset(varAddr,0, varSize);
+		brsmemcpy(varAddr, pValueStart, xTempLen);
+				
 	ELSIF varType = SYSLIB_IEC_TYPE_DATE_AND_TIME THEN
-		
+		xTempLen := findQuoation(pStart := pStart, maxLen := size);
+		IF xTempLen > findError_OK THEN
+			JSON_var_deserialize := JSONer_InputError;
+			RETURN;
+		END_IF;
+		pValueStart := pStart;
+		xTempLen := findQuoation(pStart := pStart, maxLen := size);
+		IF (xTempLen + 1) > SIZEOF(varJsonStr) THEN
+			JSON_var_deserialize := JSONer_InputError;
+			RETURN;
+		END_IF;
+		brsmemset(ADR(varJsonStr),0, SIZEOF(varJsonStr));
+		brsmemcpy(ADR(varJsonStr), pValueStart, xTempLen);
+		allTypes.tDt := STRING_TO_DT(varJsonStr);
+		brsmemcpy(varAddr, ADR(allTypes.tDt), varSize);
 		
 	ELSIF varType = SYSLIB_IEC_TYPE_TIME THEN
-		
+		xTempLen := findQuoation(pStart := pStart, maxLen := size);
+		IF xTempLen > findError_OK THEN
+			JSON_var_deserialize := JSONer_InputError;
+			RETURN;
+		END_IF;
+		pValueStart := pStart;
+		xTempLen := findQuoation(pStart := pStart, maxLen := size);
+		IF (xTempLen + 1) > SIZEOF(varJsonStr) THEN
+			JSON_var_deserialize := JSONer_InputError;
+			RETURN;
+		END_IF;
+		brsmemset(ADR(varJsonStr),0, SIZEOF(varJsonStr));
+		brsmemcpy(ADR(varJsonStr), pValueStart, xTempLen);
+		allTypes.tTime := STRING_TO_TIME(varJsonStr);
+		brsmemcpy(varAddr, ADR(allTypes.tTime), varSize);
 		
 	ELSIF varType = SYSLIB_IEC_TYPE_DATE THEN
-		
+		xTempLen := findQuoation(pStart := pStart, maxLen := size);
+		IF xTempLen > findError_OK THEN
+			JSON_var_deserialize := JSONer_InputError;
+			RETURN;
+		END_IF;
+		pValueStart := pStart;
+		xTempLen := findQuoation(pStart := pStart, maxLen := size);
+		IF (xTempLen + 1) > SIZEOF(varJsonStr) THEN
+			JSON_var_deserialize := JSONer_InputError;
+			RETURN;
+		END_IF;
+		brsmemset(ADR(varJsonStr),0, SIZEOF(varJsonStr));
+		brsmemcpy(ADR(varJsonStr), pValueStart, xTempLen);
+		allTypes.tDate := STRING_TO_DATE(varJsonStr);
+		brsmemcpy(varAddr, ADR(allTypes.tDate), varSize);
 		
 	ELSIF varType = SYSLIB_IEC_TYPE_LREAL THEN
 		xTempLen := findNumeric(pStart := pStart, maxLen := size);
@@ -250,7 +315,21 @@ FUNCTION JSON_var_deserialize
 		brsmemcpy(varAddr, ADR(allTypes.tLreal), varSize);
 		
 	ELSIF varType = SYSLIB_IEC_TYPE_TIME_OF_DAY THEN
-		
+		xTempLen := findQuoation(pStart := pStart, maxLen := size);
+		IF xTempLen > findError_OK THEN
+			JSON_var_deserialize := JSONer_InputError;
+			RETURN;
+		END_IF;
+		pValueStart := pStart;
+		xTempLen := findQuoation(pStart := pStart, maxLen := size);
+		IF (xTempLen + 1) > SIZEOF(varJsonStr) THEN
+			JSON_var_deserialize := JSONer_InputError;
+			RETURN;
+		END_IF;
+		brsmemset(ADR(varJsonStr),0, SIZEOF(varJsonStr));
+		brsmemcpy(ADR(varJsonStr), pValueStart, xTempLen);
+		allTypes.tTod := STRING_TO_TOD(varJsonStr);
+		brsmemcpy(varAddr, ADR(allTypes.tTod), varSize);
 		
 	ELSIF varType = SYSLIB_IEC_TYPE_BYTE THEN
 		xTempLen := findNumeric(pStart := pStart, maxLen := size);

@@ -1,50 +1,15 @@
-(*variable to testing*)
-(*br fun test*)
-VAR
-	xlist_prev_index : UINT := 16#FFFF;
-	xlist_index : UDINT := 0;
-	xlist_var_info : PV_xList_typ;
-	xlist_status : UINT := 0;
-	scan : BOOL;
-END_VAR
-(*Insert your comment here.*)
-VAR
-	PVitem_name : STRING[254] := 'vt_json_to_serialize';
-	PVitem_itemName : STRING[254];
-	PVitem_index : UINT := 0;
-	PVitem_status : UINT := 0;
-END_VAR
-(*Insert your comment here.*)
-VAR
-	PVnininfo_name : STRING[254];
-	PVnininfo_typ : UDINT;
-	PVnininfo_len : UDINT;
-	PVnininfo_dim : UINT;
-	PVnininfo_status : UINT;
-END_VAR
 (*Testing functions*)
 VAR
 	vt_json_serialized : ARRAY[0..2999] OF USINT;
 END_VAR
 (*Serializing*)
 VAR
-	vt_json_to_serialize : jsonTest_t;
+	vt_json_to_serialize : ARRAY[0..1] OF jsonTest_t := [(a:=[0,1,2],b:=1,c:=2,d:=3,e:=4,f:=-5,g:=6,h:=-7,i:=8.9,j:=12345.67890,k:=2,l:=4,m:=6,n:='Hello world',o:=DT#2025-01-03-12:13:14,p:=D#2025-01-02,q:=T#3s100ms,r:=TOD#12:42:12.123,t:=[(i1:=1,i2:=2,i3:=3),(i1:=4,i2:=5,i3:=6)]),(a:=[0,1,2],b:=0,c:=6,d:=7,e:=8,f:=9,g:=10,h:=-7,i:=8.9,j:=12345.67890,k:=2,l:=4,m:=6,n:='Hello world',o:=DT#2025-01-03-12:13:14,p:=D#2025-01-02,q:=T#3s100ms,r:=TOD#12:42:12.123,t:=[(i1:=1,i2:=2,i3:=3),(i1:=4,i2:=5,i3:=6)])];
 	vt_status_serialize : JSONer_Status_e;
 	vt_json_serialized_size : UDINT;
 END_VAR
 (*Deserialize*)
 VAR
 	vt_status_deserialize : JSONer_Status_e;
-	vt_json_deserialized : jsonTest_t := (a:=1,d:=0,b:=0,c:=[3(0)],e:=0,t:=[2((i1:=0,i2:=0))]);
-END_VAR
-(*Insert your comment here.*)
-VAR
-	char1 : USINT;
-	char2 : USINT;
-	char1ref : REFERENCE TO USINT;
-	char2ref : REFERENCE TO USINT;
-	char_const_ref : REFERENCE TO USINT;
-	char_comp : BOOL;
-	char_comp_ref : BOOL;
-	char_comp_mix : BOOL;
+	vt_json_deserialized : ARRAY[0..1] OF jsonTest_t;
 END_VAR

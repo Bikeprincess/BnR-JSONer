@@ -96,6 +96,8 @@ FUNCTION JSON_var_serialize
 			RETURN;
 		END_IF;
 		//================================================
+		useQuoation := FALSE;
+		copyConvStr := FALSE;
 		IF varType = SYSLIB_IEC_TYPE_USER_DEFINED OR varType = SYSLIB_IEC_TYPE_USER_DEFINED_2 THEN
 			//================================================
 			//Init Object
@@ -198,17 +200,18 @@ FUNCTION JSON_var_serialize
 			brsmemcpy(ADR(allTypes.tUdint), structItemAdr, structItemAdrLen);
 			strValConv := UDINT_TO_STRING(allTypes.tUdint);
 			copyConvStr := TRUE;
+			useQuoation := FALSE;
 		
 		ELSIF varType = SYSLIB_IEC_TYPE_REAL THEN
 			brsmemcpy(ADR(allTypes.tReal), structItemAdr, structItemAdrLen);
 			strValConv := REAL_TO_STRING(allTypes.tReal);
 			copyConvStr := TRUE;
 		
-		ELSIF varType = SYSLIB_IEC_TYPE_STRING THEN
+		ELSIF varType = SYSLIB_IEC_TYPE_STRING THEN//This is can be much bigger than internal variable
 			xStrLen := 2 + brsstrlen(ADR(structItemAdr));
 			IF freeBuffer > xStrLen THEN
 				pBuffer := brsstrcpy(pBuffer, ADR('"'));
-				pBuffer := brsstrcpy(pBuffer, ADR(structItemAdr));
+				pBuffer := brsstrcpy(pBuffer, structItemAdr);
 				pBuffer := brsstrcpy(pBuffer, ADR('"'));
 				freeBuffer := freeBuffer - xStrLen;
 			ELSE
@@ -220,16 +223,19 @@ FUNCTION JSON_var_serialize
 			brsmemcpy(ADR(allTypes.tDt), structItemAdr, structItemAdrLen);
 			strValConv := DT_TO_STRING(allTypes.tDt);
 			copyConvStr := TRUE;
+			useQuoation := TRUE;
 		
 		ELSIF varType = SYSLIB_IEC_TYPE_TIME THEN
 			brsmemcpy(ADR(allTypes.tTime), structItemAdr, structItemAdrLen);
 			strValConv := TIME_TO_STRING(allTypes.tTime);
 			copyConvStr := TRUE;
+			useQuoation := TRUE;
 		
 		ELSIF varType = SYSLIB_IEC_TYPE_DATE THEN
 			brsmemcpy(ADR(allTypes.tDate), structItemAdr, structItemAdrLen);
 			strValConv := DATE_TO_STRING(allTypes.tDate);
 			copyConvStr := TRUE;
+			useQuoation := TRUE;
 		
 		ELSIF varType = SYSLIB_IEC_TYPE_LREAL THEN
 			brsmemcpy(ADR(allTypes.tLreal), structItemAdr, structItemAdrLen);
@@ -240,6 +246,7 @@ FUNCTION JSON_var_serialize
 			brsmemcpy(ADR(allTypes.tTod), structItemAdr, structItemAdrLen);
 			strValConv := TOD_TO_STRING(allTypes.tTod);
 			copyConvStr := TRUE;
+			useQuoation := TRUE;
 		
 		ELSIF varType = SYSLIB_IEC_TYPE_BYTE THEN
 			brsmemcpy(ADR(allTypes.tByte), structItemAdr, structItemAdrLen);
@@ -265,9 +272,15 @@ FUNCTION JSON_var_serialize
 		//================================================
 		//Converted values copy
 		IF copyConvStr THEN
-			xStrLen := brsstrlen(ADR(strValConv));
+			xStrLen := brsstrlen(ADR(strValConv)) + 2 * BOOL_TO_DINT(useQuoation);
 			IF freeBuffer > xStrLen THEN
+				IF useQuoation THEN
+					pBuffer := brsstrcpy(pBuffer, ADR('"'));
+				END_IF;
 				pBuffer := brsstrcpy(pBuffer, ADR(strValConv));
+				IF useQuoation THEN
+					pBuffer := brsstrcpy(pBuffer, ADR('"'));
+				END_IF;
 				freeBuffer := freeBuffer - xStrLen;
 			ELSE
 				JSON_var_serialize := JSONer_SmallBuffer;

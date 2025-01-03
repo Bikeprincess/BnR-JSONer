@@ -1,41 +1,12 @@
 
 PROGRAM _INIT
 	
-	char1 := 34;
-	char2 := 123;
-	
-	
-	 xlist_index := ADR(vt_json_to_serialize);
 END_PROGRAM
 
 PROGRAM _CYCLIC
-	IF scan THEN
-		scan := FALSE;
-		xlist_status := PV_xlist(prev_index := xlist_prev_index, index := xlist_index, PV_xList_struct := ADR(xlist_var_info));
-	END_IF;
 	
-	PVitem_status := PV_item(ADR(PVitem_name), PVitem_index, ADR(PVitem_itemName));
+	vt_status_serialize := JSON_serialize(pVarName := ADR('Program:vt_json_to_serialize'), pUserVarName := ADR('Test'), pOut := ADR(vt_json_serialized),sizeOut := SIZEOF(vt_json_serialized), size := vt_json_serialized_size);
 	
-	PVnininfo_status := PV_ninfo(ADR(PVnininfo_name), ADR(PVnininfo_typ), ADR(PVnininfo_len), ADR(PVnininfo_dim));
-	//SYSLIB_IEC_TYPE_USER_DEFINED
-	
-	
-	vt_status_serialize := JSON_serialize(pVarName := ADR('Program:vt_json_to_serialize'), pUserVarName := ADR('Test'), pOut := ADR(vt_json_serialized),sizeOut := SIZEOF(vt_json_serialized), size := vt_json_serialized_size); 
 	vt_status_deserialize := JSON_deserialize(pVarName := ADR('Program:vt_json_deserialized'), pUserVarName := ADR('Test'), pIn := ADR(vt_json_serialized), sizeIn := SIZEOF(vt_json_serialized));
 	
-	
-	char1ref  ACCESS ADR(char1);
-	char2ref ACCESS ADR(char2);
-	char_const_ref ACCESS ADR('"');
-	char_comp := char1 = char2;
-	char_comp_ref := char1ref = char2ref;
-	char_comp_mix := char1 = char2ref;
-	
-	
 END_PROGRAM
-
-PROGRAM _EXIT
-	(* Insert code here *)
-	 
-END_PROGRAM
-
