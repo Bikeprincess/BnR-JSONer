@@ -1,5 +1,5 @@
-/Diagnosis
-/Binaries
-/Temp
-/*.isopen
-/*.set
+/JSONer/Diagnosis
+/JSONer/Binaries
+/JSONer/Temp
+/JSONer/*.isopen
+/JSONer/*.set
