@@ -56,4 +56,134 @@ END_FUNCTION
 (*Deserialize*)
 
 FUNCTION JSON_deserialize : JSONer_Status_e (*JSON deserializer*)
+	VAR_INPUT
+		pVarName : UDINT; (*Name of variable. In local variable use full path - [Program":"][Variable]...*)
+		pUserVarName : UDINT := 0;
+		pIn : UDINT;
+		sizeIn : UDINT;
+	END_VAR
+	VAR
+		xStatus : UINT;
+		eStatus : JSONer_Status_e;
+		freeBuffer : UDINT;
+	END_VAR
+END_FUNCTION
+
+FUNCTION JSON_var_deserialize : JSONer_Status_e
+	VAR_INPUT
+		pFullVarName : UDINT;
+		isArray : BOOL;
+	END_VAR
+	VAR_IN_OUT
+		pStart : UDINT;
+		size : UDINT;
+	END_VAR
+	VAR
+		xStatus : UINT;
+		eStatus : JSONer_Status_e;
+		allTypes : JSONer_types_t;
+		varName : STRING[34];
+		varFullName : STRING[254];
+		varFullNameExt : STRING[254];
+		pVarFullNameExt : UDINT;
+		xTempLen : UDINT;
+		xNameLen : UDINT;
+		pNameStart : UDINT;
+		pFullNameNxtAddr : UDINT;
+		varType : UDINT;
+		varLength : UDINT;
+		varDimension : UINT;
+		varAddr : UDINT;
+		varSize : UDINT;
+		varJsonStr : STRING[30];
+		pValueStart : UDINT;
+		i : UDINT;
+	END_VAR
+END_FUNCTION
+(*Supporting functions*)
+
+FUNCTION extractBool : UDINT
+	VAR_IN_OUT
+		pStart : UDINT;
+		maxLen : UDINT; (*Limit the finding lenght*)
+		out : BOOL;
+	END_VAR
+	VAR
+		i : UDINT := 0;
+		il : UDINT := 0;
+		c : REFERENCE TO USINT;
+		text : STRING[10];
+	END_VAR
+END_FUNCTION
+
+FUNCTION findChar : UDINT
+	VAR_INPUT
+		cIn : USINT;
+	END_VAR
+	VAR_IN_OUT
+		pStart : UDINT;
+		maxLen : UDINT; (*Limit the finding lenght*)
+	END_VAR
+	VAR
+		i : UDINT;
+		c : REFERENCE TO USINT;
+	END_VAR
+END_FUNCTION
+
+FUNCTION findCharOrEnd : UDINT
+	VAR_INPUT
+		cIn : USINT;
+	END_VAR
+	VAR_IN_OUT
+		pStart : UDINT;
+		maxLen : UDINT; (*Limit the finding lenght*)
+	END_VAR
+	VAR
+		i : UDINT;
+		c : REFERENCE TO USINT;
+	END_VAR
+END_FUNCTION
+
+FUNCTION findQuoation : UDINT
+	VAR_IN_OUT
+		pStart : UDINT;
+		maxLen : UDINT; (*Limit the finding lenght*)
+	END_VAR
+	VAR
+		i : UDINT;
+		c : REFERENCE TO USINT;
+	END_VAR
+END_FUNCTION
+
+FUNCTION findNumeric : UDINT
+	VAR_IN_OUT
+		pStart : UDINT;
+		maxLen : UDINT; (*Limit the finding lenght*)
+	END_VAR
+	VAR
+		i : UDINT;
+		c : REFERENCE TO USINT;
+	END_VAR
+END_FUNCTION
+
+FUNCTION findNumericEnd : UDINT
+	VAR_IN_OUT
+		pStart : UDINT;
+		maxLen : UDINT; (*Limit the finding lenght*)
+	END_VAR
+	VAR
+		i : UDINT;
+		c : REFERENCE TO USINT;
+	END_VAR
+END_FUNCTION
+
+FUNCTION findWhitespace : UDINT
+	VAR_IN_OUT
+		pStart : UDINT;
+		maxLen : UDINT; (*Limit the finding lenght*)
+	END_VAR
+	VAR
+		i : UDINT;
+		c : REFERENCE TO USINT;
+	END_VAR
 END_FUNCTION

@@ -1,5 +1,6 @@
 FUNCTION JSON_serialize
 	freeBuffer := sizeOut;
+	brsmemset(pOut, 0, sizeOut);
 	//================================================
 	//Get variable name and info
 	IF pVarName = 0 THEN
@@ -157,7 +158,16 @@ FUNCTION JSON_var_serialize
 		ELSIF varType = SYSLIB_IEC_TYPE_BOOL THEN
 			brsmemcpy(ADR(allTypes.tBool), structItemAdr, structItemAdrLen);
 			strValConv := BOOL_TO_STRING(allTypes.tBool);
-			copyConvStr := TRUE;
+			xStrLen := 2 + brsstrlen(ADR(strValConv));
+			IF freeBuffer > xStrLen THEN
+				pBuffer := brsstrcpy(pBuffer, ADR('"'));
+				pBuffer := brsstrcpy(pBuffer, ADR(strValConv));
+				pBuffer := brsstrcpy(pBuffer, ADR('"'));
+				freeBuffer := freeBuffer - xStrLen;
+			ELSE
+				JSON_var_serialize := JSONer_SmallBuffer;
+				RETURN;
+			END_IF;
 			
 		ELSIF varType = SYSLIB_IEC_TYPE_SINT THEN
 			brsmemcpy(ADR(allTypes.tSint), structItemAdr, structItemAdrLen);

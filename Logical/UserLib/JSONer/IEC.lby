@@ -7,6 +7,7 @@
     <File Description="Exported functions and function blocks">JSONer.fun</File>
     <File>JSON_Serialize.st</File>
     <File>JSON_Deserialize.st</File>
+    <File TransferedForTargetSourceCompare="false">JSON_Support.st</File>
   </Files>
   <Dependencies>
     <Dependency ObjectName="sys_lib" />

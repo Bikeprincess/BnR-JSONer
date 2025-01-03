@@ -27,6 +27,7 @@ TYPE
 	JSONer_Status_e : 
 		(
 		JSONer_Ok := 0,
+		JSONer_End,
 		JSONer_SmallBuffer,
 		JSONer_Error,
 		JSONer_VarNotFound,

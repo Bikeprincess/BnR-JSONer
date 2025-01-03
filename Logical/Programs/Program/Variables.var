@@ -24,7 +24,7 @@ VAR
 END_VAR
 (*Testing functions*)
 VAR
-	vt_json_serialized : STRING[3000];
+	vt_json_serialized : ARRAY[0..2999] OF USINT;
 END_VAR
 (*Serializing*)
 VAR
@@ -35,5 +35,16 @@ END_VAR
 (*Deserialize*)
 VAR
 	vt_status_deserialize : JSONer_Status_e;
-	vt_json_deserialized : jsonTest_t;
+	vt_json_deserialized : jsonTest_t := (a:=1,d:=0,b:=0,c:=[3(0)],e:=0,t:=[2((i1:=0,i2:=0))]);
+END_VAR
+(*Insert your comment here.*)
+VAR
+	char1 : USINT;
+	char2 : USINT;
+	char1ref : REFERENCE TO USINT;
+	char2ref : REFERENCE TO USINT;
+	char_const_ref : REFERENCE TO USINT;
+	char_comp : BOOL;
+	char_comp_ref : BOOL;
+	char_comp_mix : BOOL;
 END_VAR
