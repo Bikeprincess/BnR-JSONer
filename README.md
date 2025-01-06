@@ -35,4 +35,9 @@ Just call the function to generate values.
 
 ### V1.0.0
 
+Fix bool -> Remove Quoation and do small alphabet
+Fix input array
+
+### V1.0.0
+
 First usable version

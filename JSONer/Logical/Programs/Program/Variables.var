@@ -13,3 +13,12 @@ VAR
 	vt_status_deserialize : JSONer_Status_e;
 	vt_json_deserialized : ARRAY[0..1] OF jsonTest_t;
 END_VAR
+(*Insert your comment here.*)
+VAR
+	simple_json_serialized : ARRAY[0..2999] OF USINT;
+	simple_json_to_serialize : jsonTest_t := (a:=[0,1,2],b:=1,c:=2,d:=3,e:=4,f:=-5,g:=6,h:=-7,i:=8.9,j:=12345.67890,k:=2,l:=4,m:=6,n:='Hello simple world',o:=DT#2025-01-03-12:13:14,p:=D#2025-01-02,q:=T#3s100ms,r:=TOD#12:42:12.123,t:=[(i1:=9,i2:=8,i3:=7),(i1:=6,i2:=5,i3:=4)]);
+	simple_status_serialize : JSONer_Status_e;
+	simple_json_serialized_size : UDINT;
+	simple_status_deserialize : JSONer_Status_e;
+	simple_json_deserialized : jsonTest_t;
+END_VAR
