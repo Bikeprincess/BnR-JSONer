@@ -33,10 +33,15 @@ Just call the function to generate values.
 
 ## Changelog
 
-### V1.0.0
+### V1.0.1
 
-Fix bool -> Remove Quoation and do small alphabet
-Fix input array
+- FIX numeric handling
+- Remove whitespaces form serializer
+
+### V1.0.1
+
+- FIX bool -> Remove Quoation and do small alphabet
+- Fix input array
 
 ### V1.0.0
 

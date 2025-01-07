@@ -1,0 +1,42 @@
+(*Error codes*)
+VAR CONSTANT
+	findError_OK : UDINT := 16#FFFFFF00; (*Error if it greater than*)
+	findError_EndExceed : UDINT := 16#FFFFFF01;
+	findError_NotFound : UDINT := 16#FFFFFF02;
+	findError_OutOfMem : UDINT := 16#FFFFFF03;
+	findError_GenericError : UDINT := 16#FFFFFFFF;
+END_VAR
+(*var limits*)
+VAR CONSTANT
+	maxUDINT : UDINT := 4294967295; (*Maximum of UDINT*)
+END_VAR
+(*ASCII table some values*)
+VAR CONSTANT
+	jsonAsciiDQuot : USINT := 34; (*"*)
+	jsonAsciiBackslash : USINT := 92; (*\*)
+	jsonAsciiLF : USINT := 10; (*Line feed*)
+	jsonAsciiSP : USINT := 32; (*Space*)
+	jsonAsciiTab : USINT := 9; (*Tab*)
+	jsonAsciiCR : USINT := 13; (*CR*)
+	jsonAsciiLB : USINT := 123; (*{*)
+	jsonAsciiRB : USINT := 125; (*}*)
+	jsonAsciiLSB : USINT := 91; (*[*)
+	jsonAsciiRSB : USINT := 93; (*]*)
+	jsonAsciiComma : USINT := 44; (*,*)
+	jsonAsciiSQuot : USINT := 39; (*'*)
+	jsonAsciiSlash : USINT := 47; (*/*)
+	jsonAsciiColon : USINT := 58; (*:*)
+	jsonAsciiSa : USINT := 97; (*a*)
+	jsonAsciiSt : USINT := 0; (*t*)
+	jsonAsciiSf : USINT := 0; (*f*)
+	jsonAsciiSn : USINT := 0; (*n*)
+	jsonAsciiSz : USINT := 122; (*z*)
+	jsonAsciiBA : USINT := 65; (*A*)
+	jsonAsciiBZ : USINT := 90; (*Z*)
+	jsonAsciiMinus : USINT := 45; (*-*)
+	jsonAsciiPlus : USINT := 43; (*+*)
+	jsonAscii0 : USINT := 48; (*0*)
+	jsonAscii1 : USINT := 49; (*1*)
+	jsonAscii9 : USINT := 57; (*9*)
+	jsonAsciiNULL : USINT := 0; (*NULL*)
+END_VAR
